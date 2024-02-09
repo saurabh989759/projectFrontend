@@ -39,6 +39,7 @@ const issueReducer = (state = initialState, action) => {
         issues: [...state.issues, action.issue],
       };
     case actionTypes.UPDATE_ISSUE_SUCCESS:
+    case actionTypes.ASSIGNED_ISSUE_TO_USER_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -56,6 +57,7 @@ const issueReducer = (state = initialState, action) => {
     case actionTypes.CREATE_ISSUE_FAILURE:
     case actionTypes.UPDATE_ISSUE_FAILURE:
     case actionTypes.DELETE_ISSUE_FAILURE:
+    case actionTypes.ASSIGNED_ISSUE_TO_USER_FAILURE:
       return {
         ...state,
         loading: false,

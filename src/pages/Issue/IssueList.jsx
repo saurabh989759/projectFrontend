@@ -33,13 +33,14 @@ export function IssueList({ title, status }) {
     dispatch(fetchIssues(id));
   }, [id]);
 
+  
+
   return (
     <>
       <Dialog>
         <Card className="w-full md:w-[300px] lg:w-[310px] ">
           <CardHeader className="">
             <CardTitle>{title}</CardTitle>
-            {/* <CardDescription>Deploy your new project in one-click.</CardDescription> */}
           </CardHeader>
           <CardContent className="px-2">
             <div className="space-y-2">

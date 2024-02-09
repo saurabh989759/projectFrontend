@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchProjectById } from "@/redux/Project/Project.Action";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -34,7 +36,15 @@ const ProjectDetails = () => {
                   </div>
                   <div className="flex">
                     <p className="w-36">Members : </p>
-                    <p>Ashok Zarmariya</p>
+                    <div className="flex items-center gap-2">
+                      {project.projectDetails?.team.map((item,index) => (
+                        <Avatar className={`cursor-pointer`} key={item}>
+                          <AvatarFallback>
+                          {item.fullName[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                      ))}
+                    </div>
                   </div>
                   <div className="flex">
                     <p className="w-36">Category : </p>
@@ -46,7 +56,7 @@ const ProjectDetails = () => {
                   </div>
                   <div className="flex">
                     <p className="w-36">Status : </p>
-                    <p>In Progress</p>
+                    <Badge className={`bg-orange-300`}>In Progress</Badge>
                   </div>
                 </div>
 

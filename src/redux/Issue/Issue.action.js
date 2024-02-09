@@ -41,6 +41,26 @@ export const fetchIssueById = (id) => {
   };
 };
 
+export const assignedUserToIssue= ({issueId,userId}) => {
+  return async (dispatch) => {
+    dispatch({ type: actionTypes.ASSIGNED_ISSUE_TO_USER_REQUEST});
+    try {
+      const response = await api.put(`/api/issues/${issueId}/assignee/${userId}`);
+      console.log("assigned issue --- ", response.data);
+      dispatch({
+        type: actionTypes.ASSIGNED_ISSUE_TO_USER_SUCCESS,
+        issue: response.data,
+      });
+    } catch (error) {
+      console.log("error ",error)
+      dispatch({
+        type: actionTypes.ASSIGNED_ISSUE_TO_USER_FAILURE,
+        error: error.message,
+      });
+    }
+  };
+};
+
 // Action for creating an issue
 export const createIssue = (issueData) => {
   return async (dispatch) => {
