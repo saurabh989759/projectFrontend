@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import { DotsVerticalIcon, PersonIcon } from "@radix-ui/react-icons";
 
   
 import {
@@ -62,13 +63,16 @@ const IssueCard = ({item}) => {
                   size="icon"
                 >
                     <Avatar>
-                      <AvatarFallback>A</AvatarFallback>  
+                      <AvatarFallback>{
+                        item.assignee?.fullName[0].toUpperCase() ||
+                        <PersonIcon/>
+                        }</AvatarFallback>  
                     </Avatar>
                   
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <UserList issue={item}/>
+                <UserList issueDetails={item}/>
               </DropdownMenuContent>
             </DropdownMenu>
         

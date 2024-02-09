@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { fetchProjectById } from "@/redux/Project/Project.Action";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import Loader from "../Loader/Loader";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const ProjectDetails = () => {
   }, [id]);
   return (
     <>
-      {project.projectDetails ? (
+      {!project.loading ? (
         <div className="mt-5 lg:px-10 ">
           <div className="lg:flex gap-5 justify-between pb-4">
             <ScrollArea className="h-screen lg:w-[69%] pr-2">
@@ -79,7 +80,9 @@ const ProjectDetails = () => {
           </div>
         </div>
       ) : (
-        <div>Loading Data...</div>
+        <div>
+          <Loader/>
+        </div>
       )}
     </>
   );

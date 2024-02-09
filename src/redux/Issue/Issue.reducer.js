@@ -15,6 +15,7 @@ const issueReducer = (state = initialState, action) => {
     case actionTypes.UPDATE_ISSUE_REQUEST:
     case actionTypes.DELETE_ISSUE_REQUEST:
     case actionTypes.FETCH_ISSUES_BY_ID_REQUEST:
+    case actionTypes.ASSIGNED_ISSUE_TO_USER_REQUEST:
       return {
         ...state,
         loading: true,

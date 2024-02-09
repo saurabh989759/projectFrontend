@@ -2,26 +2,31 @@
 /* eslint-disable react/prop-types */
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { assignedUserToIssue } from "@/redux/Issue/Issue.action";
+import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Loader from "../Loader/Loader";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const UserList = ({ issue }) => {
+const UserList = ({ issueDetails }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { project, auth } = useSelector((store) => store);
+  const { project, auth, issue } = useSelector((store) => store);
 
   const handleIssueAssigne = (userId) => {
     dispatch(assignedUserToIssue(
       { 
         userId,
-      issueId: issue.id 
+      issueId: issueDetails.id 
     }));
   };
 
   return (
-    <div className="space-y-2">
+    <Fragment>
+      {!issue.loading?
+      <div className="space-y-2">
       <div className="border rounded-md">
-        <p className="py-2 px-3">{issue.assignee.fullName || "Unassigne"}</p>
+        <p className="py-2 px-3">{issueDetails.assignee?.fullName || "Unassigne"}</p>
       </div>
       {project.projectDetails?.team.map((item) => (
         <div
@@ -38,12 +43,35 @@ const UserList = ({ issue }) => {
           <div className=" space-y-1">
             <p className="text-sm font-medium leading-none">{item.fullName}</p>
             <p className="text-xs text-muted-foreground">
-              @{item.fullName.toLowerCase().split(" ").join("_")}
+              @{item.fullName?.toLowerCase().split(" ").join("_")}
             </p>
           </div>
         </div>
       ))}
+    </div>:<div>
+    <div className="p-1">
+      <Skeleton className="border rounded-md h-[2rem]">
+      </Skeleton>
+      {project.projectDetails?.team.map((item) => (
+        <Skeleton
+          key={item}
+          className="w-full h-[2rem]"
+        >
+          <Skeleton className="">
+            
+          </Skeleton>
+
+          <Skeleton className=" space-y-1">
+            <Skeleton className="text-sm font-medium leading-none"></Skeleton>
+            <Skeleton className="text-xs text-muted-foreground">
+             
+            </Skeleton>
+          </Skeleton>
+        </Skeleton>
+      ))}
     </div>
+      </div>}
+    </Fragment>
   );
 };
 
