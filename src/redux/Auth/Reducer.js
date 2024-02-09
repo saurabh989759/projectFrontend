@@ -13,7 +13,7 @@ import {
 
 const initialState = {
   user: null,
-  isLoading: false,
+  loading: false,
   error: null,
   jwt: null,
 
@@ -24,31 +24,31 @@ const authReducer = (state = initialState, action) => {
     case REGISTER_REQUEST:
     case LOGIN_REQUEST:
       case GET_USER_REQUEST:
-      return { ...state, isLoading: true, error: null };
+      return { ...state, loading: true, error: null };
 
     case REGISTER_SUCCESS:
-      return { ...state, isLoading: false, jwt: action.payload.jwt };
+      return { ...state, loading: false, jwt: action.payload.jwt };
       case GET_USER_SUCCESS:
         return {
           ...state,
-          isLoading: false,
+          loading: false,
           user: action.payload,
          
         };
 
 
-    case REGISTER_FAILURE:
-    case LOGIN_FAILURE:
-      return { ...state, isLoading: false, error: action.payload };
+    
     case LOGIN_SUCCESS:
-      return { ...state, isLoading: false, jwt: action.payload.jwt };
+      return { ...state, loading: false, jwt: action.payload.jwt };
     
     
 
     case GET_USER_FAILURE:
+    case REGISTER_FAILURE:
+    case LOGIN_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        loading: false,
         error: action.payload,
         fetchingUser: false,
       };

@@ -8,6 +8,7 @@ import Navbar from "./pages/Navbar/Navbar";
 import ProjectDetails from "./pages/Project/ProjectDetails";
 import IssueDetails from "./pages/Issue/IssueDetails";
 import UpdateProjectForm from "./pages/Project/UpdateProjectForm";
+import Loader from "./pages/Loader/Loader";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function App() {
   return (
     <>
       
-      {auth.user ? (
+      {auth.loading?<Loader/> : auth.user ? (
         <>
           <Navbar />
           <Routes>
