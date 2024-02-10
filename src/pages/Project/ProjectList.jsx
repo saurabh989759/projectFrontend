@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import ProjectCard from "./ProjectCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -33,13 +33,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects } from "@/redux/Project/Project.Action";
 
 const ProjectList = () => {
-  const dispatch=useDispatch();
-  const {project}=useSelector(store=>store)
-  useEffect(()=>{
-dispatch(fetchProjects())
-  },[])
+  const dispatch = useDispatch();
+  const { project } = useSelector((store) => store);
+  useEffect(() => {
+    dispatch(fetchProjects());
+  }, []);
   return (
-    <div className="relative  lg:flex gap-5 justify-center py-5">
+    <><div className="relative  lg:flex gap-5 justify-center py-5">
       <section className="hidden lg:block">
         <Card className="p-5 sticky top-10">
           <div className="flex justify-between lg:w-[20rem]">
@@ -124,12 +124,12 @@ dispatch(fetchProjects())
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="space-y-5 ">
+        <div className="space-y-5 min-h-[80vh]">
           {project.projects.map((item) => (
             <ProjectCard item={item} key={item} />
           ))}
 
-          <Pagination>
+        {project.projects.length>0 ?  <Pagination>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious href="#" />
@@ -138,7 +138,9 @@ dispatch(fetchProjects())
                 <PaginationLink href="#">1</PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#" isActive>2</PaginationLink>
+                <PaginationLink href="#" isActive>
+                  2
+                </PaginationLink>
               </PaginationItem>
               <PaginationItem>
                 <PaginationEllipsis />
@@ -147,10 +149,14 @@ dispatch(fetchProjects())
                 <PaginationNext href="#" />
               </PaginationItem>
             </PaginationContent>
-          </Pagination>
+          </Pagination>:<div className="flex items-center justify-center h-[80vh]">
+            <h1>No projects...</h1>
+            </div>}
         </div>
       </section>
     </div>
+    </>
+    
   );
 };
 

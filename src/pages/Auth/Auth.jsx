@@ -6,14 +6,13 @@ import LoginForm from "./login/login";
 
 
 const Auth = () => {
-  
   return (
     <div className="loginContainer">
       <div className="box h-[30rem] w-[25rem] ">
         <div className="login ">
           <div className="loginBox w-full px-10 space-y-5">
             
-           {false? <SignupForm/>:<LoginForm/>}
+           {true? <SignupForm/>:<LoginForm/>}
 
             <div className="flex items-center justify-center">
               <span>already have account ? </span>

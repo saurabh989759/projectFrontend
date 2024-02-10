@@ -101,3 +101,32 @@ export const deleteProject = (projectId) => {
     }
   };
 };
+
+
+export const inviteToProject = ({email, projectId}) => {
+  return async dispatch => {
+    dispatch({ type: actionTypes.INVITE_TO_PROJECT_REQUEST });
+    try {
+      const {data}=await api.post('/api/invite', { email, projectId });
+      dispatch({ type: actionTypes.INVITE_TO_PROJECT_SUCCESS });
+      console.log("invite to project ",data);
+    } catch (error) {
+      dispatch({ type: actionTypes.INVITE_TO_PROJECT_FAILURE, error: error.message });
+    }
+  };
+};
+
+// Action for accepting invitation
+export const acceptInvitation = (invitationToken) => {
+  return async dispatch => {
+    dispatch({ type: actionTypes.ACCEPT_INVITATION_REQUEST });
+    try {
+      await api.get('/api/accept_invitation', {
+        params: { token:invitationToken },
+      });
+      dispatch({ type: actionTypes.ACCEPT_INVITATION_SUCCESS });
+    } catch (error) {
+      dispatch({ type: actionTypes.ACCEPT_INVITATION_FAILURE, error: error.message });
+    }
+  };
+};
