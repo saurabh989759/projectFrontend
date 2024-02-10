@@ -6,6 +6,7 @@ import CreateProjectForm from "../Project/CreateProjectForm";
 
 const Navbar = () => {
   const { auth } = useSelector((store) => store);
+  
   return (
     <div className="border-b  py-4 px-5 flex items-center justify-between">
       <div className="flex items-center gap-3">

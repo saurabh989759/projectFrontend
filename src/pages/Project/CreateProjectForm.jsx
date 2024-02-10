@@ -24,6 +24,7 @@ import { useState } from "react";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { useDispatch } from "react-redux";
 import { createProject } from "@/redux/Project/Project.Action";
+import { DialogClose } from "@/components/ui/dialog";
 
 const formSchema = object({
   name: string().min(1),
@@ -168,10 +169,12 @@ const CreateProjectForm = () => {
               </FormItem>
             )}
           />
-
-          <Button type="submit" className="w-full bg-slate-400 py-5">
+<DialogClose>
+  <Button type="submit" className="w-full bg-slate-400 py-5">
             Create Project
           </Button>
+</DialogClose>
+          
         </form>
       </Form>
     </div>

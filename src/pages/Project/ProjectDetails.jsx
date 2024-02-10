@@ -4,10 +4,17 @@ import ChatBox from "./ChatBox";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchProjectById } from "@/redux/Project/Project.Action";
+import {
+  fetchProjectById,
+  inviteToProject,
+} from "@/redux/Project/Project.Action";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import Loader from "../Loader/Loader";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@radix-ui/react-icons";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import InviteUserForm from "./InviteUserForm";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -16,6 +23,10 @@ const ProjectDetails = () => {
   useEffect(() => {
     dispatch(fetchProjectById(id));
   }, [id]);
+
+  const handleProjectInvitation = () => {
+    dispatch(inviteToProject({ email: "", projectId: id }));
+  };
   return (
     <>
       {!project.loading ? (
@@ -38,14 +49,34 @@ const ProjectDetails = () => {
                   <div className="flex">
                     <p className="w-36">Members : </p>
                     <div className="flex items-center gap-2">
-                      {project.projectDetails?.team.map((item,index) => (
+                      {project.projectDetails?.team.map((item, index) => (
                         <Avatar className={`cursor-pointer`} key={item}>
-                          <AvatarFallback>
-                          {item.fullName[0]}
-                          </AvatarFallback>
+                          <AvatarFallback>{item.fullName[0]?.toUpperCase()}</AvatarFallback>
                         </Avatar>
                       ))}
                     </div>
+
+                    <Dialog>
+                      <DialogTrigger>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="ml-2"
+                          onClick={handleProjectInvitation}
+                        >
+                          {" "}
+                          <span className="pr-1">invite</span>
+                          <PlusIcon className="w-3 h-3" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Invite User</DialogTitle>
+                         
+                        </DialogHeader>
+                        <InviteUserForm projectId={id}/>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   <div className="flex">
                     <p className="w-36">Category : </p>
@@ -81,7 +112,7 @@ const ProjectDetails = () => {
         </div>
       ) : (
         <div>
-          <Loader/>
+          <Loader />
         </div>
       )}
     </>

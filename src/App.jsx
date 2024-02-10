@@ -9,6 +9,7 @@ import ProjectDetails from "./pages/Project/ProjectDetails";
 import IssueDetails from "./pages/Issue/IssueDetails";
 import UpdateProjectForm from "./pages/Project/UpdateProjectForm";
 import Loader from "./pages/Loader/Loader";
+import AcceptInvitation from "./pages/Project/AcceptInvitation";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ function App() {
             <Route
               path="/project/:projectId/issue/:issueId"
               element={<IssueDetails />}
+            ></Route>
+             <Route
+              path="/accept_invitation"
+              element={<AcceptInvitation />}
             ></Route>
           </Routes>
         </>

@@ -10,6 +10,8 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useDispatch } from "react-redux";
+import { register } from "@/redux/Auth/Action";
 
 const formSchema = z.object({
   fullName: z.string().nonempty("Full name is required"),
@@ -20,6 +22,7 @@ const formSchema = z.object({
     .optional(),
 });
 const SignupForm = () => {
+  const dispatch=useDispatch();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,10 +33,12 @@ const SignupForm = () => {
   });
   const onSubmit = (data) => {
     // Handle form submission here
+    dispatch(register(data))
     console.log("signup form", data);
   };
   return (
-    <div>
+    <div className="space-y-5">
+      <h1 className="text-center text-xl">Register</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -88,7 +93,7 @@ const SignupForm = () => {
             )}
           />
           <Button type="submit" className="w-full bg-slate-400 py-5">
-            Login
+            REGISTER
           </Button>
         </form>
       </Form>

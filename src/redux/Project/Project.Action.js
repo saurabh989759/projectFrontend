@@ -36,6 +36,7 @@ export const createProject = (projectData) => {
         project: response.data,
       });
     } catch (error) {
+      console.log("catch error ",error)
       dispatch({
         type: actionTypes.CREATE_PROJECT_FAILURE,
         error: error.message,
@@ -107,7 +108,7 @@ export const inviteToProject = ({email, projectId}) => {
   return async dispatch => {
     dispatch({ type: actionTypes.INVITE_TO_PROJECT_REQUEST });
     try {
-      const {data}=await api.post('/api/invite', { email, projectId });
+      const {data}=await api.post('/api/projects/invite', { email, projectId });
       dispatch({ type: actionTypes.INVITE_TO_PROJECT_SUCCESS });
       console.log("invite to project ",data);
     } catch (error) {
@@ -118,14 +119,17 @@ export const inviteToProject = ({email, projectId}) => {
 
 // Action for accepting invitation
 export const acceptInvitation = (invitationToken) => {
+  console.log("invitation token",invitationToken)
   return async dispatch => {
     dispatch({ type: actionTypes.ACCEPT_INVITATION_REQUEST });
     try {
-      await api.get('/api/accept_invitation', {
+      const {data}=await api.get('/api/projects/accept_invitation', {
         params: { token:invitationToken },
       });
+      console.log("accept invitation",data)
       dispatch({ type: actionTypes.ACCEPT_INVITATION_SUCCESS });
     } catch (error) {
+      console.log("error ",error)
       dispatch({ type: actionTypes.ACCEPT_INVITATION_FAILURE, error: error.message });
     }
   };
