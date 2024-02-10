@@ -19,7 +19,7 @@ import InviteUserForm from "./InviteUserForm";
 const ProjectDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { project } = useSelector((store) => store);
+  const { project,auth } = useSelector((store) => store);
   useEffect(() => {
     dispatch(fetchProjectById(id));
   }, [id]);
@@ -49,14 +49,14 @@ const ProjectDetails = () => {
                   <div className="flex">
                     <p className="w-36">Members : </p>
                     <div className="flex items-center gap-2">
-                      {project.projectDetails?.team.map((item, index) => (
+                      {project.projectDetails?.team.map((item) => (
                         <Avatar className={`cursor-pointer`} key={item}>
                           <AvatarFallback>{item.fullName[0]?.toUpperCase()}</AvatarFallback>
                         </Avatar>
                       ))}
                     </div>
 
-                    <Dialog>
+                   {auth.user?.id===project.projectDetails?.owner.id && <Dialog>
                       <DialogTrigger>
                         <Button
                           size="sm"
@@ -76,7 +76,7 @@ const ProjectDetails = () => {
                         </DialogHeader>
                         <InviteUserForm projectId={id}/>
                       </DialogContent>
-                    </Dialog>
+                    </Dialog>}
                   </div>
                   <div className="flex">
                     <p className="w-36">Category : </p>

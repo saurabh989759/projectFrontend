@@ -38,10 +38,7 @@ const IssueDetails = () => {
             <div className="py-5">
               <h2 className="font-semibold text-gray-400">Description</h2>
               <p className="text-gray-400 text-sm mt-3">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Officiis sint debitis, earum ullam beatae, adipisci voluptas
-                harum, deserunt quae omnis ducimus cumque! Tenetur vitae dolore
-                consequuntur. Quos quam harum provident.
+                {issue.issueDetails?.description}
               </p>
             </div>
             <div className="mt-5">
