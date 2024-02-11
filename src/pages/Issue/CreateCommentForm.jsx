@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,6 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { AvatarFallback,Avatar } from "@/components/ui/avatar";
+import { useDispatch, useSelector } from "react-redux";
+import { createComment } from "@/redux/Comment/comment.action";
 
 const formSchema = z.object({
   content: z.string().min(2, {
@@ -20,8 +23,9 @@ const formSchema = z.object({
   }),
 });
 
-export function CreateCommentForm() {
-   
+export function CreateCommentForm({issueId}) {
+  const {auth}=useSelector(store=>store);
+  const dispatch = useDispatch();
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -29,8 +33,9 @@ export function CreateCommentForm() {
         },
       })
   const onSubmit = (data) => {
-    // Handle form submission here
-    console.log(data);
+    console.log("comment data ", data);
+    dispatch(createComment({content:data.content,issueId}))
+    form.reset();
   };
 
   return (
@@ -46,7 +51,7 @@ export function CreateCommentForm() {
             <div className="flex gap-2">
                 <div>
                   <Avatar>
-                    <AvatarFallback>A</AvatarFallback>
+                    <AvatarFallback>{auth.user.fullName[0].toUpperCase()}</AvatarFallback>
                 </Avatar>  
                 </div>
                 

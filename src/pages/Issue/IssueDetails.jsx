@@ -15,15 +15,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchIssueById } from "@/redux/Issue/Issue.action";
 import { useParams } from "react-router-dom";
+import { fetchComments } from "@/redux/Comment/comment.action";
 
 const comments = [1, 1, 1];
 const IssueDetails = () => {
   const { issueId } = useParams();
   const dispatch = useDispatch();
-  const {issue} = useSelector(store=>store);
-
+  const {issue,comment} = useSelector(store=>store);
+  
   useEffect(() => {
     dispatch(fetchIssueById(issueId));
+    dispatch(fetchComments(issueId))
   }, []);
 
   return (
@@ -53,10 +55,10 @@ const IssueDetails = () => {
                   all Make changes to your account here.
                 </TabsContent>
                 <TabsContent value="comments">
-                  <CreateCommentForm />
+                  <CreateCommentForm issueId={issueId}/>
                   <div className="mt-8 space-y-6">
-                    {comments.map((item) => (
-                      <CommentCard key={item} />
+                    {comment.comments.map((item,index) => (
+                      <CommentCard item={item} key={index} />
                     ))}
                   </div>
                 </TabsContent>
