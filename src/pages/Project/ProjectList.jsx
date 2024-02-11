@@ -33,26 +33,35 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects, searchProjects } from "@/redux/Project/Project.Action";
 import { useLocation, useNavigate } from "react-router-dom";
+import { tags } from "./filterData";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import FilterSheet from "./FilterSheet";
 
 const ProjectList = () => {
- 
-  const navigate=useNavigate();
-  const location=useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const searchParams = new URLSearchParams(location.search);
   const category = searchParams.get("category");
-  const tag=searchParams.get("tag");
-  const [keyword,setKeyword]=useState("");
+  const tag = searchParams.get("tag");
+  const [keyword, setKeyword] = useState("");
 
   const { project } = useSelector((store) => store);
 
   useEffect(() => {
-    dispatch(fetchProjects({category,tag}));
-  }, [category,tag]);
+    dispatch(fetchProjects({ category, tag }));
+  }, [category, tag]);
 
-  const handleFilterChange = (section,value) => {
-    console.log(value, section)
-    
+  const handleFilterChange = (section, value) => {
+    console.log(value, section);
+
     if (value === "all") {
       searchParams.delete(section);
     } else {
@@ -61,12 +70,12 @@ const ProjectList = () => {
     const query = searchParams.toString();
     navigate({ search: query ? `?${query}` : "" });
   };
-  const handleSearchChange=(e)=>{
-    setKeyword(e.target.value)
-    if(e.target.value){
-      dispatch(searchProjects(e.target.value))
+  const handleSearchChange = (e) => {
+    setKeyword(e.target.value);
+    if (e.target.value) {
+      dispatch(searchProjects(e.target.value));
     }
-  }
+  };
   return (
     <>
       <div className="relative px-5 lg:px-0 lg:flex gap-5 justify-center py-5">
@@ -84,13 +93,19 @@ const ProjectList = () => {
                 <div>
                   <h1 className="pb-3 text-gray-400 border-b">Category</h1>
                   <div className="pt-5">
-                    <RadioGroup onValueChange={(value)=>handleFilterChange("category",value)} className="space-y-3" defaultValue="all">
+                    <RadioGroup
+                      onValueChange={(value) =>
+                        handleFilterChange("category", value)
+                      }
+                      className="space-y-3"
+                      defaultValue={category || "all"}
+                    >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="all" id="r1" />
                         <Label htmlFor="r1">all</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="full-stack" id="r1" />
+                        <RadioGroupItem value="fullstack" id="r1" />
                         <Label htmlFor="r1">full stack</Label>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -98,29 +113,24 @@ const ProjectList = () => {
                         <Label htmlFor="r2">frontend</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="compact" id="r3" />
+                        <RadioGroupItem value="backend" id="r3" />
                         <Label htmlFor="r3">backend</Label>
                       </div>
                     </RadioGroup>
                   </div>
                 </div>
 
-                <div className="pt-5">
+                <div className="pt-9">
                   <h1 className="pb-3 text-gray-400 border-b">Tags</h1>
 
-                  <RadioGroup 
-                  onValueChange={(value)=>handleFilterChange("tag",value)} className="space-y-3 pt-5" defaultValue="all">
-                    {[
-                      "all",
-                      "react",
-                      "nextjs",
-                      "spring boot",
-                      "mysql",
-                      "mongodb",
-                    ].map((item) => (
+                  <RadioGroup
+                    onValueChange={(value) => handleFilterChange("tag", value)}
+                    className="space-y-3 pt-5"
+                    defaultValue={tag || "all"}
+                  >
+                    {tags.map((item) => (
                       <div key={item} className="flex items-center space-x-2">
-                        <RadioGroupItem 
-                        value={item} id={`r-${item}`} />
+                        <RadioGroupItem value={item} id={`r-${item}`} />
                         <Label htmlFor={`r-${item}`}>{item}</Label>
                       </div>
                     ))}
@@ -135,36 +145,33 @@ const ProjectList = () => {
           <div className="flex gap-2 items-center pb-5 justify-between">
             <div className="relative p-0 w-full">
               <Input
-                className="w-[50%] rounded-fulls pl-9"
+                className="w-[40%] rounded-fulls px-9"
                 placeholder="search project..."
                 onChange={handleSearchChange}
               />
               <MagnifyingGlassIcon className="absolute top-3 left-4" />
             </div>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Button variant="ghost" className="rounded-full">
-                  <span className="pr-2">sort</span>
-                  <CaretDownIcon />
+            <Sheet className=" lg:hidden">
+              <SheetTrigger>
+                <Button className="" variant="ghost" size="icon">
+                  <MixerHorizontalIcon />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>sort by created at</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>new</DropdownMenuItem>
-                <DropdownMenuItem>old</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </SheetTrigger>
+              <SheetContent>
+                <FilterSheet />
+              </SheetContent>
+            </Sheet>
           </div>
           <div>
             <div className="space-y-5 min-h-[74vh]">
-              {keyword? project.searchProjects.map((item) => (
-                <ProjectCard item={item} key={item} />
-              )):
-              project.projects.map((item) => (
-                <ProjectCard item={item} key={item} />
-              )) }
+              {keyword
+                ? project.searchProjects.map((item) => (
+                    <ProjectCard item={item} key={item} />
+                  ))
+                : project.projects.map((item) => (
+                    <ProjectCard item={item} key={item} />
+                  ))}
             </div>
             {project.projects.length > 0 ? (
               <div>

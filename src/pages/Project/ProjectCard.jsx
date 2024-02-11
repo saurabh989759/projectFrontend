@@ -38,7 +38,7 @@ const ProjectCard = ({ item }) => {
                 {item.name}
               </h1>
               <DotFilledIcon />
-              <p className="text-sm text-gray-400">10 days ago</p>
+              <p className="text-sm text-gray-400">{item.category}</p>
             </div>
             <div>
               <DropdownMenu>

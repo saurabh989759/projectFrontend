@@ -25,6 +25,7 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 import { useDispatch } from "react-redux";
 import { createProject } from "@/redux/Project/Project.Action";
 import { DialogClose } from "@/components/ui/dialog";
+import { tags } from "./filterData";
 
 const formSchema = object({
   name: string().min(1),
@@ -33,7 +34,7 @@ const formSchema = object({
   tags: array(string()),
 });
 const CreateProjectForm = () => {
-    const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,7 +46,7 @@ const CreateProjectForm = () => {
   });
   const handleTagsChange = (newValue) => {
     const currentTags = form.getValues("tags");
-    
+
     const updatedTags = currentTags.includes(newValue)
       ? currentTags.filter((tag) => tag !== newValue)
       : [...currentTags, newValue];
@@ -56,7 +57,7 @@ const CreateProjectForm = () => {
   };
 
   const onSubmit = (data) => {
-    dispatch(createProject(data))
+    dispatch(createProject(data));
     console.log("Create project", data);
   };
   return (
@@ -143,12 +144,11 @@ const CreateProjectForm = () => {
                       <SelectValue placeholder="Tags" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="react">React</SelectItem>
-                      <SelectItem value="javascript">JavaScript</SelectItem>
-                      <SelectItem value="html">HTML</SelectItem>
-                      <SelectItem value="css">CSS</SelectItem>
-                      <SelectItem value="frontend">Frontend</SelectItem>
-                      <SelectItem value="backend">Backend</SelectItem>
+                      {tags.map((tag) => (
+                        <SelectItem key={tag} value={tag}>
+                          {tag}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -169,12 +169,11 @@ const CreateProjectForm = () => {
               </FormItem>
             )}
           />
-<DialogClose>
-  <Button type="submit" className="w-full bg-slate-400 py-5">
-            Create Project
-          </Button>
-</DialogClose>
-          
+          <DialogClose>
+            <Button type="submit" className="w-full bg-slate-400 py-5">
+              Create Project
+            </Button>
+          </DialogClose>
         </form>
       </Form>
     </div>
