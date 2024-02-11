@@ -53,11 +53,11 @@ const ProjectList = () => {
   const tag = searchParams.get("tag");
   const [keyword, setKeyword] = useState("");
 
-  const { project } = useSelector((store) => store);
+  const { project,auth } = useSelector((store) => store);
 
   useEffect(() => {
     dispatch(fetchProjects({ category, tag }));
-  }, [category, tag]);
+  }, [category, tag,auth.jwt]);
 
   const handleFilterChange = (section, value) => {
     console.log(value, section);
