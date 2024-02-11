@@ -89,12 +89,12 @@ const IssueDetails = () => {
               <div className="space-y-7">
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Assignee</p>
-                  <div className="flex items-center gap-3">
+                  {issue.issueDetails?.assignee ? <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8 text-xs">
                       <AvatarFallback>A</AvatarFallback>
                     </Avatar>
-                    <p>Ashok</p>
-                  </div>
+                    <p>{issue.issueDetails?.assignee?.fullName}</p>
+                  </div>:"-"}
                 </div>
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Labels</p>
@@ -103,16 +103,16 @@ const IssueDetails = () => {
 
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Realese</p>
-                  <div className="flex items-center gap-3"></div>
+                  <div className="flex items-center gap-3">-</div>
                 </div>
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Reporter</p>
-                  <div className="flex items-center gap-3">
+                  {issue.issueDetails?.assignee ? <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8 text-xs">
                       <AvatarFallback>A</AvatarFallback>
                     </Avatar>
                     <p>Ashok</p>
-                  </div>
+                  </div>:<div>-</div>}
                 </div>
               </div>
             </div>

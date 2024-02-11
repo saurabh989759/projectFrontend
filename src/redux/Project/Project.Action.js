@@ -3,11 +3,18 @@ import * as actionTypes from "./ActionTypes";
 import api, { API_BASE_URL } from "@/Api/api";
 
 // Action for fetching projects
-export const fetchProjects = () => {
+export const fetchProjects = ({category,tag}) => {
+  const params = {};
+  if (category) {
+    params.category = category;
+  }
+  if (tag) {
+    params.tag = tag;
+  }
   return async (dispatch) => {
     dispatch({ type: actionTypes.FETCH_PROJECTS_REQUEST });
     try {
-      const response = await api.get("/api/projects");
+      const response = await api.get("/api/projects",{params});
       console.log("fetch Projects ", response.data);
       dispatch({
         type: actionTypes.FETCH_PROJECTS_SUCCESS,

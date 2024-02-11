@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 import ProjectCard from "./ProjectCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -31,13 +32,35 @@ import {
 } from "@/components/ui/pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects } from "@/redux/Project/Project.Action";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ProjectList = () => {
+ 
+  const navigate=useNavigate();
+  const location=useLocation()
   const dispatch = useDispatch();
+  const searchParams = new URLSearchParams(location.search);
+  const category = searchParams.get("category");
+  const tag=searchParams.get("tag");
+
   const { project } = useSelector((store) => store);
   useEffect(() => {
-    dispatch(fetchProjects());
-  }, []);
+    dispatch(fetchProjects({category,tag}));
+  }, [category,tag]);
+
+
+
+  const handleFilterChange = (section,value) => {
+    console.log(value, section)
+    
+    if (value === "all") {
+      searchParams.delete(section);
+    } else {
+      searchParams.set(section, value);
+    }
+    const query = searchParams.toString();
+    navigate({ search: query ? `?${query}` : "" });
+  };
   return (
     <>
       <div className="relative  lg:flex gap-5 justify-center py-5">
@@ -55,7 +78,7 @@ const ProjectList = () => {
                 <div>
                   <h1 className="pb-3 text-gray-400 border-b">Category</h1>
                   <div className="pt-5">
-                    <RadioGroup className="space-y-3" defaultValue="all">
+                    <RadioGroup onValueChange={(value)=>handleFilterChange("category",value)} className="space-y-3" defaultValue="all">
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="all" id="r1" />
                         <Label htmlFor="r1">all</Label>
@@ -79,7 +102,8 @@ const ProjectList = () => {
                 <div className="pt-5">
                   <h1 className="pb-3 text-gray-400 border-b">Tags</h1>
 
-                  <RadioGroup className="space-y-3 pt-5" defaultValue="all">
+                  <RadioGroup 
+                  onValueChange={(value)=>handleFilterChange("tag",value)} className="space-y-3 pt-5" defaultValue="all">
                     {[
                       "all",
                       "react",
@@ -89,8 +113,9 @@ const ProjectList = () => {
                       "mongodb",
                     ].map((item) => (
                       <div key={item} className="flex items-center space-x-2">
-                        <RadioGroupItem value={item} id="r1" />
-                        <Label htmlFor="r1">{item}</Label>
+                        <RadioGroupItem 
+                        value={item} id={`r-${item}`} />
+                        <Label htmlFor={`r-${item}`}>{item}</Label>
                       </div>
                     ))}
                   </RadioGroup>
