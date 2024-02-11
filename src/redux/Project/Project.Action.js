@@ -29,6 +29,26 @@ export const fetchProjects = ({category,tag}) => {
   };
 };
 
+export const searchProjects = (keyword) => {
+  
+  return async (dispatch) => {
+    dispatch({ type: actionTypes.SEARCH_PROJECT_REQUEST });
+    try {
+      const response = await api.get(`/api/projects/search?keyword=${keyword}`);
+      console.log("search Projects ", response.data);
+      dispatch({
+        type: actionTypes.SEARCH_PROJECT_SUCCESS,
+        projects: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.SEARCH_PROJECT_FAILURE,
+        error: error.message,
+      });
+    }
+  };
+};
+
 // Action for creating a project
 export const createProject = (projectData) => {
   return async (dispatch) => {

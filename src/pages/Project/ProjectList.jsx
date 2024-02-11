@@ -31,7 +31,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProjects } from "@/redux/Project/Project.Action";
+import { fetchProjects, searchProjects } from "@/redux/Project/Project.Action";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ProjectList = () => {
@@ -42,13 +42,13 @@ const ProjectList = () => {
   const searchParams = new URLSearchParams(location.search);
   const category = searchParams.get("category");
   const tag=searchParams.get("tag");
+  const [keyword,setKeyword]=useState("");
 
   const { project } = useSelector((store) => store);
+
   useEffect(() => {
     dispatch(fetchProjects({category,tag}));
   }, [category,tag]);
-
-
 
   const handleFilterChange = (section,value) => {
     console.log(value, section)
@@ -61,9 +61,15 @@ const ProjectList = () => {
     const query = searchParams.toString();
     navigate({ search: query ? `?${query}` : "" });
   };
+  const handleSearchChange=(e)=>{
+    setKeyword(e.target.value)
+    if(e.target.value){
+      dispatch(searchProjects(e.target.value))
+    }
+  }
   return (
     <>
-      <div className="relative  lg:flex gap-5 justify-center py-5">
+      <div className="relative px-5 lg:px-0 lg:flex gap-5 justify-center py-5">
         <section className="hidden lg:block">
           <Card className="p-5 sticky top-10">
             <div className="flex justify-between lg:w-[20rem]">
@@ -131,6 +137,7 @@ const ProjectList = () => {
               <Input
                 className="w-[50%] rounded-fulls pl-9"
                 placeholder="search project..."
+                onChange={handleSearchChange}
               />
               <MagnifyingGlassIcon className="absolute top-3 left-4" />
             </div>
@@ -152,12 +159,16 @@ const ProjectList = () => {
           </div>
           <div>
             <div className="space-y-5 min-h-[74vh]">
-              {project.projects.map((item) => (
+              {keyword? project.searchProjects.map((item) => (
                 <ProjectCard item={item} key={item} />
-              ))}
+              )):
+              project.projects.map((item) => (
+                <ProjectCard item={item} key={item} />
+              )) }
             </div>
             {project.projects.length > 0 ? (
-              <Pagination>
+              <div>
+                {/* <Pagination>
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious href="#" />
@@ -177,7 +188,8 @@ const ProjectList = () => {
                     <PaginationNext href="#" />
                   </PaginationItem>
                 </PaginationContent>
-              </Pagination>
+              </Pagination> */}
+              </div>
             ) : (
               <div className="flex items-center justify-center h-[80vh]">
                 <h1>No projects...</h1>

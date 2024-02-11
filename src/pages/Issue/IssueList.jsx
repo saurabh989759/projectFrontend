@@ -37,7 +37,7 @@ export function IssueList({ title, status }) {
   
 
   return (
-    <>
+    <div>
       <Dialog>
         <Card className="w-full md:w-[300px] lg:w-[310px] ">
           <CardHeader className="">
@@ -45,7 +45,7 @@ export function IssueList({ title, status }) {
           </CardHeader>
           <CardContent className="px-2">
             <div className="space-y-2">
-              {issue.issues.map((item) => (
+              {issue.issues.filter((item)=>item.status==status).map((item) => (
                 <IssueCard item={item} key={item} />
               ))}
             </div>
@@ -68,6 +68,6 @@ export function IssueList({ title, status }) {
           <CreateIssueForm status={status} />
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -13,20 +14,26 @@ import CommentCard from "./CommentCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchIssueById } from "@/redux/Issue/Issue.action";
+import { fetchIssueById, updateIssueStatus } from "@/redux/Issue/Issue.action";
 import { useParams } from "react-router-dom";
 import { fetchComments } from "@/redux/Comment/comment.action";
+import { Badge } from "@/components/ui/badge";
 
 const comments = [1, 1, 1];
+
 const IssueDetails = () => {
   const { issueId } = useParams();
   const dispatch = useDispatch();
-  const {issue,comment} = useSelector(store=>store);
-  
+  const { issue, comment } = useSelector((store) => store);
+
   useEffect(() => {
     dispatch(fetchIssueById(issueId));
-    dispatch(fetchComments(issueId))
+    dispatch(fetchComments(issueId));
   }, []);
+
+  const handleUpdateIssueStatus = (value) => {
+    dispatch(updateIssueStatus({ id: issueId, status: value }));
+  };
 
   return (
     <div className="px-20 py-8 text-gray-400">
@@ -55,9 +62,9 @@ const IssueDetails = () => {
                   all Make changes to your account here.
                 </TabsContent>
                 <TabsContent value="comments">
-                  <CreateCommentForm issueId={issueId}/>
+                  <CreateCommentForm issueId={issueId} />
                   <div className="mt-8 space-y-6">
-                    {comment.comments.map((item,index) => (
+                    {comment.comments.map((item, index) => (
                       <CommentCard item={item} key={index} />
                     ))}
                   </div>
@@ -71,12 +78,12 @@ const IssueDetails = () => {
         </ScrollArea>
 
         <div className="w-full lg:w-[30%] space-y-2">
-          <Select>
+          <Select onValueChange={handleUpdateIssueStatus}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder={"To Do"} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="todo">To Do</SelectItem>
+              <SelectItem value="pending">To Do</SelectItem>
               <SelectItem value="in_progress">In Progress</SelectItem>
               <SelectItem value="done">Done</SelectItem>
             </SelectContent>
@@ -89,16 +96,34 @@ const IssueDetails = () => {
               <div className="space-y-7">
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Assignee</p>
-                  {issue.issueDetails?.assignee ? <div className="flex items-center gap-3">
-                    <Avatar className="h-8 w-8 text-xs">
-                      <AvatarFallback>A</AvatarFallback>
-                    </Avatar>
-                    <p>{issue.issueDetails?.assignee?.fullName}</p>
-                  </div>:"-"}
+                  {issue.issueDetails?.assignee ? (
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8 text-xs">
+                        <AvatarFallback>A</AvatarFallback>
+                      </Avatar>
+                      <p>{issue.issueDetails?.assignee?.fullName}</p>
+                    </div>
+                  ) : (
+                    "-"
+                  )}
                 </div>
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Labels</p>
                   None
+                </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">Status</p>
+                  <Badge
+                    className={`${
+                      issue.issueDetails?.status == "in_progress"
+                        ? "bg-orange-300"
+                        : issue.issueDetails?.status == "done"
+                        ? "bg-green-500"
+                        : ""
+                    }`}
+                  >
+                    {issue.issueDetails?.status}
+                  </Badge>
                 </div>
 
                 <div className="flex gap-10 items-center">
@@ -107,12 +132,16 @@ const IssueDetails = () => {
                 </div>
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Reporter</p>
-                  {issue.issueDetails?.assignee ? <div className="flex items-center gap-3">
-                    <Avatar className="h-8 w-8 text-xs">
-                      <AvatarFallback>A</AvatarFallback>
-                    </Avatar>
-                    <p>Ashok</p>
-                  </div>:<div>-</div>}
+                  {issue.issueDetails?.assignee ? (
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8 text-xs">
+                        <AvatarFallback>A</AvatarFallback>
+                      </Avatar>
+                      <p>Ashok</p>
+                    </div>
+                  ) : (
+                    <div>-</div>
+                  )}
                 </div>
               </div>
             </div>

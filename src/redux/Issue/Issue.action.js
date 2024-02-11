@@ -2,6 +2,8 @@
 import * as actionTypes from "./ActionTypes";
 import api from "@/Api/api";
 
+// /api/issues/1/status/in_progress
+
 // Action for fetching issues
 export const fetchIssues = (id) => {
   return async (dispatch) => {
@@ -35,6 +37,25 @@ export const fetchIssueById = (id) => {
     } catch (error) {
       dispatch({
         type: actionTypes.FETCH_ISSUES_BY_ID_FAILURE,
+        error: error.message,
+      });
+    }
+  };
+};
+
+export const updateIssueStatus = ({id,status}) => {
+  return async (dispatch) => {
+    dispatch({ type: actionTypes.UPDATE_ISSUE_STATUS_REQUEST });
+    try {
+      const response = await api.put(`/api/issues/${id}/status/${status}`);
+      console.log("update issue status", response.data);
+      dispatch({
+        type: actionTypes.UPDATE_ISSUE_STATUS_SUCCESS,
+        issues: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.UPDATE_ISSUE_STATUS_FAILURE,
         error: error.message,
       });
     }

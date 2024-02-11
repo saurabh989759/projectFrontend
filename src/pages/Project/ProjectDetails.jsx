@@ -82,10 +82,10 @@ const ProjectDetails = () => {
                     <p className="w-36">Category : </p>
                     <p>{project.projectDetails?.category}</p>
                   </div>
-                  <div className="flex">
+                  {/* <div className="flex">
                     <p className="w-36">Deadline : </p>
                     <p>Sun 5, jan</p>
-                  </div>
+                  </div> */}
                   <div className="flex">
                     <p className="w-36">Status : </p>
                     <Badge className={`bg-orange-300`}>In Progress</Badge>

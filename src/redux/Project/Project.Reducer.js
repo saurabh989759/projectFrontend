@@ -5,7 +5,8 @@ const initialState = {
   projects: [],
   loading: false,
   error: null,
-  projectDetails:null
+  projectDetails:null,
+  searchProjects:[]
 };
 
 const ProjectReducer = (state = initialState, action) => {
@@ -25,6 +26,12 @@ const ProjectReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         projects: action.projects
+      };
+      case actionTypes.SEARCH_PROJECT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        searchProjects: action.projects
       };
     case actionTypes.CREATE_PROJECT_SUCCESS:
       return {
