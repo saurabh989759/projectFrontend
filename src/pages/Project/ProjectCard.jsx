@@ -21,9 +21,16 @@ import { DotFilledIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import UpdateProjectForm from "./UpdateProjectForm";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deleteProject } from "@/redux/Project/Project.Action";
 
 const ProjectCard = ({ item }) => {
   const navigate = useNavigate();
+  const dispatch=useDispatch();
+
+  const hnadleDeleteProject=()=>{
+    dispatch(deleteProject({projectId:item.id}))
+  }
 
   return (
     <Card className="p-5 w-full lg:max-w-3xl">
@@ -53,7 +60,7 @@ const ProjectCard = ({ item }) => {
                   >
                     Update
                   </DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem onClick={hnadleDeleteProject}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

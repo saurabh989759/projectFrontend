@@ -167,10 +167,10 @@ const ProjectList = () => {
             <div className="space-y-5 min-h-[74vh]">
               {keyword
                 ? project.searchProjects.map((item) => (
-                    <ProjectCard item={item} key={item} />
+                    <ProjectCard item={item} key={item.id} />
                   ))
                 : project.projects.map((item) => (
-                    <ProjectCard item={item} key={item} />
+                    <ProjectCard item={item} key={item.id} />
                   ))}
             </div>
             {project.projects.length > 0 ? (

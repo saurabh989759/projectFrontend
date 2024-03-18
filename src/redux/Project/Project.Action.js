@@ -115,13 +115,14 @@ export const fetchProjectById = (id) => {
   };
 
 // Action for deleting a project
-export const deleteProject = (projectId) => {
+export const deleteProject = ({projectId}) => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.DELETE_PROJECT_REQUEST });
     try {
       await api.delete(`/api/projects/${projectId}`);
       dispatch({ type: actionTypes.DELETE_PROJECT_SUCCESS, projectId });
     } catch (error) {
+      console.log("error - ",error)
       dispatch({
         type: actionTypes.DELETE_PROJECT_FAILURE,
         error: error.message,
@@ -145,7 +146,7 @@ export const inviteToProject = ({email, projectId}) => {
 };
 
 // Action for accepting invitation
-export const acceptInvitation = (invitationToken) => {
+export const acceptInvitation = ({invitationToken,navigate}) => {
   console.log("invitation token",invitationToken)
   return async dispatch => {
     dispatch({ type: actionTypes.ACCEPT_INVITATION_REQUEST });
@@ -153,8 +154,9 @@ export const acceptInvitation = (invitationToken) => {
       const {data}=await api.get('/api/projects/accept_invitation', {
         params: { token:invitationToken },
       });
+      navigate(`/project/${data.projectId}`)
       console.log("accept invitation",data)
-      dispatch({ type: actionTypes.ACCEPT_INVITATION_SUCCESS });
+      dispatch({ type: actionTypes.ACCEPT_INVITATION_SUCCESS,payload:data });
     } catch (error) {
       console.log("error ",error)
       dispatch({ type: actionTypes.ACCEPT_INVITATION_FAILURE, error: error.message });
