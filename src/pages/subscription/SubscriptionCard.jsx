@@ -27,7 +27,7 @@ const SubscriptionCard = ({ data }) => {
         className="w-full"
         onClick={handleUpgrade}
       >
-        Get Started
+        {data.buttonName}
       </Button>
       <div>
         {data.features.map((item, index) => (

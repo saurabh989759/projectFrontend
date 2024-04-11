@@ -10,6 +10,7 @@ export const getUserSubscription = () => {
         type: types.GET_USER_SUBSCRIPTION_SUCCESS,
         payload: response.data,
       });
+      console.log("users subscription ",response.data)
     } catch (error) {
         console.log(error)
       dispatch({
