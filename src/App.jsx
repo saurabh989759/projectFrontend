@@ -10,6 +10,8 @@ import IssueDetails from "./pages/Issue/IssueDetails";
 import UpdateProjectForm from "./pages/Project/UpdateProjectForm";
 import Loader from "./pages/Loader/Loader";
 import AcceptInvitation from "./pages/Project/AcceptInvitation";
+import Subscription from "./pages/subscription/Subscription";
+import UpgradeSuccess from "./pages/subscription/UpgradeSuccess";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +38,8 @@ function App() {
               path="/accept_invitation"
               element={<AcceptInvitation />}
             ></Route>
+            <Route path="/upgrade_plan" element={<Subscription />}></Route>
+            <Route path="/upgrade_plan/success" element={<UpgradeSuccess />}></Route>
           </Routes>
         </>
       ) : (

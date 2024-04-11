@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -19,9 +18,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const { auth } = useSelector((store) => store);
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -44,6 +45,7 @@ const Navbar = () => {
             <CreateProjectForm />
           </DialogContent>
         </Dialog>
+        <Button onClick={()=>navigate("/upgrade_plan")} variant="ghost">Upgrade</Button>
       </div>
 
       <div className="flex gap-3 items-center">
@@ -61,8 +63,8 @@ const Navbar = () => {
             <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-
-        {auth.user?.fullName}
+<p className="lg:block hidden">{auth.user?.fullName} </p>
+        
       </div>
     </div>
   );
