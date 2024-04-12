@@ -15,14 +15,12 @@ import { array, object, string } from "zod";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "@/redux/Project/Project.Action";
 import { DialogClose } from "@/components/ui/dialog";
 import { tags } from "./filterData";
@@ -35,6 +33,7 @@ const formSchema = object({
 });
 const CreateProjectForm = () => {
   const dispatch = useDispatch();
+  const { auth,subscription } = useSelector((store) => store);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,6 +59,9 @@ const CreateProjectForm = () => {
     dispatch(createProject(data));
     console.log("Create project", data);
   };
+
+  console.log((subscription.userSubscription?.planType === "Free"))
+  console.log(auth.user?.projectSize >= 3)
   return (
     <div>
       <Form {...form}>
@@ -166,13 +168,21 @@ const CreateProjectForm = () => {
                 </div>
 
                 <FormMessage />
-              </FormItem>
+              </FormItem>        
             )}
           />
           <DialogClose>
-            <Button type="submit" className="w-full bg-slate-400 py-5">
-              Create Project
-            </Button>
+            {(subscription.userSubscription?.planType === "FREE" &&
+            auth.projectSize >= 3) ? (
+              <div className="py-3">
+                <p className="text-red-500">you can create only 3 project with free plan, please upgrade your plan</p>
+              </div>
+              
+            ) : (
+              <Button type="submit" className="w-full  py-5">
+                Create Project
+              </Button>
+            )}
           </DialogClose>
         </form>
       </Form>

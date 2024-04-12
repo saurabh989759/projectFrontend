@@ -2,8 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { createPayment } from "@/redux/Payment/Action";
+import { getUserSubscription } from "@/redux/Subscription/Action";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 const SubscriptionCard = ({ data }) => {
   const dispatch = useDispatch();
   const handleUpgrade = () => {
@@ -14,6 +16,8 @@ const SubscriptionCard = ({ data }) => {
       })
     );
   };
+
+ 
   return (
     <Card className="card p-5 space-y-5 w-[18rem]">
       <p>{data.planName}</p>

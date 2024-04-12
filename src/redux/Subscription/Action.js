@@ -1,11 +1,15 @@
 import * as types from "./actionTypes";
 import api from "@/Api/api";
 
-export const getUserSubscription = () => {
+export const getUserSubscription = (jwt) => {
   return async (dispatch) => {
     dispatch({ type: types.GET_USER_SUBSCRIPTION_REQUEST });
     try {
-      const response = await api.get("/api/subscriptions/user");
+      const response = await api.get("/api/subscriptions/user",{
+        headers:{
+          "Authorization":`Bearer ${jwt}`
+        }
+      });
       dispatch({
         type: types.GET_USER_SUBSCRIPTION_SUCCESS,
         payload: response.data,
@@ -34,6 +38,7 @@ export const upgradeSubscription = ({planType}) => {
         type: types.UPGRADE_SUBSCRIPTION_SUCCESS,
         payload: response.data,
       });
+      console.log("upgraded subscription",response.data);
     } catch (error) {
         console.log(error.response.data)
       dispatch({

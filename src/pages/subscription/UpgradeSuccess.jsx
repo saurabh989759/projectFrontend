@@ -19,7 +19,7 @@ const UpgradeSuccess = () => {
   const planType = queryParams.get("planType");
 
   console.log("Payment ID:", paymentId);
-  console.log("Plan Type:", subscription);
+  console.log("Plan Type:", planType);
 
   useEffect(() => {
     dispatch(upgradeSubscription({planType}))

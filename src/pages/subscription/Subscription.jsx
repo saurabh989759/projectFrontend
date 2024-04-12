@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import SubscriptionCard from "./SubscriptionCard";
-import {useSelector} from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
+import { getUserSubscription } from "@/redux/Subscription/Action";
 
 const paidPlan = [
   "Add unlimited project",
@@ -34,18 +36,52 @@ const freePlan = [
 ];
 
 const Subscription = () => {
-  const { auth } = useSelector((store) => store);
+  const { auth, subscription } = useSelector((store) => store);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserSubscription());
+  }, []);
 
   return (
     <div className="p-10 ">
       <h1 className="text-5xl font-semibold py-5 pb-16 text-center">Pricing</h1>
       <div className="flex flex-col lg:flex-row justify-center items-center gap-5">
-        <SubscriptionCard data={{ planName: "Free", features: freePlan, planType:"FREE",price:0,buttonName:auth.user.subscription.planType=="FREE"?"Current Plan":"Get Started" }} />
         <SubscriptionCard
-          data={{ planName: "Monthly Paid Plan", features: paidPlan, planType: "MONTHLY",price:799,buttonName:auth.user.subscription.planType=="MONTHLY"?"Current Plan":"Get Started"}}
+          data={{
+            planName: "Free",
+            features: freePlan,
+            planType: "FREE",
+            price: 0,
+            buttonName:
+              subscription.userSubscription?.planType == "FREE"
+                ? "Current Plan"
+                : "Get Started",
+          }}
         />
         <SubscriptionCard
-          data={{ planName: "Annual Paid Plan", features: annualPlan,planType:"ANNUALLY",price:6711,buttonName:auth.user.subscription.planType=="ANNUALLY"?"Current Plan":"Get Started" }}
+          data={{
+            planName: "Monthly Paid Plan",
+            features: paidPlan,
+            planType: "MONTHLY",
+            price: 799,
+            buttonName:
+              subscription.userSubscription?.planType == "MONTHLY"
+                ? "Current Plan"
+                : "Get Started",
+          }}
+        />
+        <SubscriptionCard
+          data={{
+            planName: "Annual Paid Plan",
+            features: annualPlan,
+            planType: "ANNUALLY",
+            price: 6711,
+            buttonName:
+              subscription.userSubscription?.planType == "ANNUALLY"
+                ? "Current Plan"
+                : "Get Started",
+          }}
         />
       </div>
     </div>

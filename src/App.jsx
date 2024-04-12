@@ -12,12 +12,14 @@ import Loader from "./pages/Loader/Loader";
 import AcceptInvitation from "./pages/Project/AcceptInvitation";
 import Subscription from "./pages/subscription/Subscription";
 import UpgradeSuccess from "./pages/subscription/UpgradeSuccess";
+import { getUserSubscription } from "./redux/Subscription/Action";
 
 function App() {
   const dispatch = useDispatch();
   const { auth } = useSelector((store) => store);
   useEffect(() => {
     dispatch(getUser(auth.jwt || localStorage.getItem("jwt")));
+    dispatch(getUserSubscription(auth.jwt || localStorage.getItem("jwt")))
   }, [auth.jwt]);
 
   return (
