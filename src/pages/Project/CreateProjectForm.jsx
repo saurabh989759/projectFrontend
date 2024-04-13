@@ -130,7 +130,7 @@ const CreateProjectForm = () => {
             )}
           />
           <FormField
-            control={form.control}
+          control={form.control}
             name={"tags"}
             render={({ field }) => (
               <FormItem>
