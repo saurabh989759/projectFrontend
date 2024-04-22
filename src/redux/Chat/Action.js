@@ -2,17 +2,36 @@ import api from "@/Api/api";
 import * as actionTypes from "./ActionTypes";
 
 
-export const sendMessage = (messageData) => {
+export const sendMessage = ({message,sendToServer}) => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.SEND_MESSAGE_REQUEST });
     try {
       const response = await api.post(
         "/api/messages/send",
-        messageData
+        message
       );
+      sendToServer(response.data)
       dispatch({
         type: actionTypes.SEND_MESSAGE_SUCCESS,
         message: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.SEND_MESSAGE_FAILURE,
+        error: error.message,
+      });
+    }
+  };
+};
+
+export const messageRecived = (message) => {
+  return async (dispatch) => {
+  
+    try {
+      
+      dispatch({
+        type: actionTypes.SEND_MESSAGE_SUCCESS,
+        message: message,
       });
     } catch (error) {
       dispatch({
