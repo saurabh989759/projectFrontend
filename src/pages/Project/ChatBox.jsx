@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import SockJS from "sockjs-client";
+
 import Stomp from "stompjs";
 
 const ChatBox = () => {
@@ -122,6 +123,8 @@ const ChatBox = () => {
   //       chatContainerRef.current.scrollHeight;
   //   }
   // }, [messages]);
+
+
 
   return (
     <div className="sticky">
