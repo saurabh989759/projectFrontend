@@ -1,8 +1,35 @@
-# React + Vite
+# Project Management System Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the frontend component of the Project Management System. The frontend is built using React, Tailwind CSS, and Shadcn UI to provide a modern and responsive user interface for managing projects and tasks.
 
-Currently, two official plugins are available:
+## Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The frontend application interacts with a backend API to deliver a seamless user experience for managing projects, tasks, and user profiles. It includes features such as authentication, state management, and integration with the Razorpay payment gateway.
+
+## Features
+
+- **User Authentication**: Secure login and registration using JWT.
+- **State Management**: Utilizes Redux for efficient state management across the application.
+- **Responsive UI**: Designed with Tailwind CSS and Shadcn UI for a modern look and feel.
+- **Payment Integration**: Supports Razorpay for online payment processing.
+
+## Technologies Used
+
+- React
+- Redux
+- Tailwind CSS
+- Shadcn UI
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (>=14.x)
+- npm (>=6.x)
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/saurabh989759/projectFrontend.git
+   cd projectFrontend
